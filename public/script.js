@@ -131,19 +131,10 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
 
-
-  // document.getElementById('clientSelect').addEventListener('change', (e) => {
-  //     fetchClientDetails(e.target.value);
-  // });
-
   document.getElementById('fetchClientByCpfBtn').addEventListener('click', () => {
     const cpf = document.getElementById('clientCpfSearch').value;
     fetchClientDetailsByCpf(cpf);
   });
-
-  // document.getElementById('addProductBtn').addEventListener('click', () => {
-  //     addProductFields();
-  // });
 
   document.getElementById('saveClientBtn').addEventListener('click', () => {
       saveClient();
@@ -153,7 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
       saveOrder();
   });
 
-  const clientSelect = document.getElementById('clientSelect');
+  const clientSelect = document.getElementById('clientCpfSearch');
 
   function fetchClientDetailsByCpf(cpf) {
     fetch(`/clients/cpf/${cpf}`)
@@ -165,40 +156,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('orderClientEmail').value = clientDetails.email;
                 document.getElementById('orderClientPhone').value = clientDetails.phone;
                 document.getElementById('orderClientCpf').value = clientDetails.cpf;
+
+                document.getElementById('clientId').value = clientDetails.id;
+                console.log(document.getElementById('clientId')); 
+                
             } else {
-                console.error('Nenhum cliente encontrado com este CPF');
-            }
-        })
-        .catch(error => {
-            console.error('Erro ao buscar os detalhes do cliente:', error);
-        });
-  }
-  
-  app.get('/clients/cpf/:cpf', (req, res) => {
-    const { cpf } = req.params;
-    const query = 'SELECT * FROM clients WHERE cpf = ?';
-    db.query(query, [cpf], (err, results) => {
-      if (err) {
-        console.error(err);
-        return res.status(500).send('Erro no servidor: ' + err.message);
-      }
-    res.json(results);
-    });
-  });
-
-  function fetchClientDetails(cpf) {
-    fetch(`/clients/cpf/${cpf}`)
-        .then(response => response.json())
-        .then(data => {
-            if (data && data.length > 0) {
-                const clientDetails = data[0];
-                document.getElementById('orderClientName').value = clientDetails.name; // Adicione esta linha para preencher o nome do cliente
-                document.getElementById('orderClientEmail').value = clientDetails.email;
-                document.getElementById('orderClientPhone').value = clientDetails.phone;
-                document.getElementById('orderClientCpf').value = clientDetails.cpf;
-                document.getElementById('clientId').value = clientDetails.id;  // Armazenando o ID do cliente
-
-              } else {
                 console.error('Nenhum cliente encontrado com este CPF');
             }
         })
@@ -232,15 +194,13 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function saveOrder() {
-    // const unit_id = localStorage.getItem('unit_id');
-    // const manager_id = localStorage.getItem('manager_id');
-
     const clientIdElem = document.getElementById('clientId');
+    console.log(clientIdElem);
 
-    console.log(document.getElementById('clientId'));  // Adicione esta linha
+
 
     if (!clientIdElem) {
-      console.error('Elemento clientId não encontrado!');
+      console.error('Elemento clientId não encontrado ou valor não configurado');
       return;
     }
       const client_id = clientIdElem.value;
@@ -248,19 +208,12 @@ document.addEventListener('DOMContentLoaded', () => {
       const description = document.getElementById('orderDescription').value;
       const status = document.getElementById('orderStatus').value;
 
-
-      const products = Array.from(productsContainer.getElementsByClassName('product')).map(productDiv => {
-          const name = productDiv.querySelector('input[name="productName"]').value;
-          const price = productDiv.querySelector('input[name="productPrice"]').value;
-          return { name, price };
-      });
-
       fetch('/orders', {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ client_id, description, status, products })
+          body: JSON.stringify({ client_id, description, status })
       })
       .then(response => response.json())
       .then(data => {
@@ -315,11 +268,6 @@ let currentClientId;
   document.getElementById('ClientBtn').addEventListener('click', () => {
     document.getElementById('clientsModal').style.display = 'block';
     fetchClients();
-  });
-
-  document.getElementById('fetchClientByCpfBtn').addEventListener('click', () => {
-    const cpf = document.getElementById('clientCPFSearch').value;
-    fetchClientDetails(cpf);
   });
 
 // const clientId = e.target.getAttribute('data-client-id')
