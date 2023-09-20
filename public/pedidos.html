@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="styles-pedidos.css">
+<title>Página de Pedidos</title>
+</head>
+<body>
+
+<div class="container">
+    <button id="ClientBtn">Clientes</button>
+    <button id="addOrderBtn">Adicionar Pedido</button>
+    <button id="viewOrdersBtn">Pedidos</button>
+</div>
+
+<!-- Modal para Adicionar Cliente -->
+<div id="clientModal" class="modal">
+    <div class="modal-content">
+        <h2>Adicionar Cliente</h2>
+        <label for="clientName">Nome</label>
+        <input type="text" id="clientName" name="clientName">
+        <label for="clientEmail">Email</label>
+        <input type="email" id="clientEmail" name="clientEmail">
+        <label for="clientPhone">Telefone</label>
+        <input type="text" id="clientPhone" name="clientPhone">
+        <label for="clientCpf">CPF</label>
+        <input type="text" id="clientCpf" name="clientCpf" required>
+        <button type="button" id="saveClientBtn">Salvar</button>
+        <button type="button" id="closeClientModalBtn" class="close">Fechar</button>
+    </div>
+</div>
+
+<!-- Modal Clientes -->
+<div id="clientsModal" style="display:none;">
+  <div class="modal-content">
+    <button id="addClientBtn">Adicionar Cliente</button>
+
+      <h2>Lista de Clientes</h2>
+      <table id="clientsTable">
+          <thead>
+              <tr>
+                  <th>Nome</th>
+                  <th>CPF</th>
+                  <th>Email</th>
+                  <th>Telefone</th>
+                  <th>Ações</th>
+              </tr>
+          </thead>
+          <tbody>
+              <!-- As linhas da tabela serão inseridas dinamicamente aqui -->
+          </tbody>
+      </table>
+      <button id="closeClientsModalBtn" class="close">Fechar</button>
+  </div>
+</div>
+
+<!-- modal edição cliente -->
+
+<div id="editClientModal" class="modal">
+  <div class="modal-content">
+    <h2>Editar Cliente</h2>
+    <button id="excludeClient" class="close">Excluir cliente</button>
+
+    <label for="editClientName">Nome:</label>
+    <input type="text" id="editClientName" name="editClientName">
+    
+    <label for="editClientEmail">Email:</label>
+    <input type="email" id="editClientEmail" name="editClientEmail">
+    
+    <label for="editClientPhone">Telefone:</label>
+    <input type="text" id="editClientPhone" name="editClientPhone">
+    
+    <label for="editClientCpf">CPF:</label>
+    <input type="text" id="editClientCpf" name="editClientCpf">
+
+    <input type="hidden" id="clientId" name="clientId">
+
+    
+    <button id="saveClientChangesBtn" onclick="saveClientChanges()">Salvar Alterações</button>
+    <button id="closeClientChangesBtn" class="close">Fechar</button>
+    
+  </div>
+</div>
+
+
+
+
+
+<!-- Modal para Adicionar Pedido -->
+<div id="orderModal" class="modal">
+  <div class="modal-content">
+      <h2>Adicionar Pedido</h2>
+      <label for="clientCPFSearch">CPF do Cliente</label>
+      <input type="text" id="clientCPFSearch" name="clientCPFSearch">
+      <button type="button" id="fetchClientByCpfBtn">Buscar</button>
+
+      <label for="orderClientName">Nome</label>
+      <input type="text" id="orderClientName" name="orderClientName" disabled>
+
+      <label for="orderClientEmail">Email</label>
+      <input type="email" id="orderClientEmail" name="orderClientEmail" disabled>
+
+      <label for="orderClientPhone">Telefone</label>
+      <input type="text" id="orderClientPhone" name="orderClientPhone" disabled>
+
+      <label for="orderClientCpf">CPF</label>
+      <input type="text" id="orderClientCpf" name="orderClientCpf" disabled>
+
+      <label for="orderDescription">Descrição</label>
+      <textarea id="orderDescription" name="orderDescription"></textarea>
+      
+      <label for="orderStatus">Status</label>
+      <select id="orderStatus" name="orderStatus">
+        <option value="0">Selecione o status</option>
+          <option value="PENDENTE">PENDENTE</option>
+          <option value="EM PROCESSAMENTO">EM PROCESSO</option>
+          <option value="COMPLETO">COMPLETO</option>
+          <option value="CANCELADO">CANCELADO</option>
+      </select>
+      
+      <div id="productsContainer">
+          <!-- Container para campos de produtos -->
+      </div>
+      <!-- <button type="button" id="addProductBtn">Adicionar Produto</button> -->
+      <input type="hidden" id="clientId" name="clientId">
+      <button type="button" id="saveOrderBtn">Salvar</button>
+      <button type="button" id="closeOrderModalBtn" class="close">Fechar</button>
+  </div>
+</div>
+
+
+
+<!-- Modal Pedidos -->
+<div id="ordersModal" style="display:none;">
+    <button id="openOrdersBtn">Pedidos em Aberto</button>
+    <button id="completedOrdersBtn">Pedidos Finalizados</button>
+    <!-- <button id="cancelledOrdersBtn">Pedidos Cancelados</button> -->
+    <button id="closeOrdersModalBtn" class="close">Fechar</button>
+</div>
+
+<!-- Modal para mostrar os pedidos em aberto -->
+<div id="openOrdersModal" style="display:none;">
+    <table id="openOrdersTable">
+      <thead>
+        <tr>
+          <th>ID do Pedido</th>
+          <th>Nome do Cliente</th>
+          <th>CPF do Cliente</th>
+          <th>Status</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- As linhas serão inseridas dinamicamente aqui -->
+      </tbody>
+    </table>
+    <button id="closeOpenOrdersModalBtn" class="close">Fechar</button>
+</div>
+
+<!-- Modal para mostrar os pedidos finalizados -->
+<div id="completedOrdersModal" style="display:none;">
+  <table id="completedOrdersTable">
+    <thead>
+      <tr>
+        <th>ID do Pedido</th>
+        <th>Nome do Cliente</th>
+        <th>CPF do Cliente</th>
+        <th>Status</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- As linhas serão inseridas dinamicamente aqui -->
+    </tbody>
+  </table>
+  <button id="closeCompletedOrdersModalBtn" class="close">Fechar</button>
+</div>
+
+<!-- Modal para editar pedidos -->
+<div id="editOrderModal" style="display:none;">
+  <div class="modal-content">
+    <h2>Editar Pedido</h2>
+    
+      <label for="editOrderDescription">Descrição</label>
+      <input type="text" id="editOrderDescription">
+    
+
+      <label for="editOrderStatus">Status</label>
+      <select id="editOrderStatus">
+        <option value="0">Selecione o status</option>
+        <option value="PENDING">Pendente</option>
+        <option value="IN PROCESS">Em Processo</option>
+        <option value="COMPLETED">Completo</option>
+        <option value="CANCELLED">Cancelado</option>
+      </select>
+
+      <label for="editOrderTotalPrice">Valor do Pedido (R$)</label>
+      <input type="number" id="editOrderTotalPrice" step="0.01">
+
+
+    <div id="editProductsContainer">
+      <!-- Os campos para editar os produtos serão inseridos dinamicamente aqui -->
+    </div>
+    <input type="hidden" id="edit-order-id" name="edit-order-id" />
+
+    <!-- <button id="addProductToEditOrderBtn">Adicionar Produto</button> -->
+    <button id="saveEditedOrderBtn">Salvar</button>
+    <button id="closeEditOrderModalBtn" class="close">Fechar</button>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

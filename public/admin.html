@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+    <link rel="stylesheet" href="style1.css">
+</head>
+<body>
+    <h1>Página do Administrador</h1>
+
+    <form id="create-unit-form">
+        <div>
+            <label for="unit-name">Nome da Unidade</label>
+            <input type="text" id="unit-name" name="unit-name">
+        </div>
+        <div>
+            <label for="manager-username">Nome de usuário do Gerente</label>
+            <input type="text" id="manager-username" name="manager-username">
+        </div>
+        <div>
+            <label for="manager-name">Nome do Gerente</label>
+            <input type="text" id="manager-name" name="manager-name">
+        </div>
+        <div>
+            <label for="manager-password">Senha do Gerente</label>
+            <input type="password" id="manager-password" name="manager-password">
+        </div>
+        <button type="submit">Criar Unidade</button>
+    </form>
+
+    <table id="units-table">
+        <thead>
+            <tr>
+                <th>Unidade</th>
+                <th>Gerente</th>
+                <th>Nome de usuário</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- As linhas serão inseridas aqui pelo JavaScript -->
+        </tbody>
+    </table>
+    
+    <script src="script.js"></script>
+</body>
+</html>

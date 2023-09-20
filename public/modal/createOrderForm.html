@@ -1,0 +1,24 @@
+<form id="createOrderForm">
+    <label for="orderUnitId">ID da Unidade</label>
+    <input type="number" id="orderUnitId" name="orderUnitId" required>
+    
+    <label for="orderManagerId">ID do Gerente</label>
+    <input type="number" id="orderManagerId" name="orderManagerId" required>
+  
+    <label for="orderClientId">ID do Cliente</label>
+    <input type="number" id="orderClientId" name="orderClientId" required>
+  
+    <label for="orderDescription">Descrição</label>
+    <textarea id="orderDescription" name="orderDescription" required></textarea>
+  
+    <label for="orderStatus">Status</label>
+    <select id="orderStatus" name="orderStatus" required>
+      <option value="PENDING">Pendente</option>
+      <option value="IN PROCESS">Em processo</option>
+      <option value="COMPLETED">Completo</option>
+      <option value="CANCELLED">Cancelado</option>
+    </select>
+  
+    <button type="submit">Criar Pedido</button>
+  </form>
+  
