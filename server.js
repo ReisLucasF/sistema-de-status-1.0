@@ -549,6 +549,74 @@ app.delete('/clients/:id', (req, res) => {
   });
 });
 
+// consulta
+
+app.get('/clients/detalhes/:cpf', (req, res) => {
+  const { cpf } = req.params;
+
+  // Criando uma query SQL para buscar os detalhes do cliente usando o CPF
+  const query = 'SELECT * FROM clients WHERE cpf = ?';
+
+  db.query(query, [cpf], (err, results) => {
+      if (err) {
+          console.error(err);
+          return res.status(500).send('Erro no servidor: ' + err.message);
+      }
+      
+      // Retornando os detalhes do cliente como resposta JSON
+      res.json(results);
+  });
+});
+
+app.get('/orders/cpf/:cpf', (req, res) => {
+  const { cpf } = req.params;
+
+  // Criando uma query SQL para buscar os pedidos usando o CPF do cliente
+  const query = `
+      SELECT orders.id, orders.description, orders.status, orders.order_value 
+      FROM orders 
+      JOIN clients ON orders.client_id = clients.id 
+      WHERE clients.cpf = ?;
+  `;
+
+  db.query(query, [cpf], (err, results) => {
+      if (err) {
+          console.error(err);
+          return res.status(500).send('Erro no servidor: ' + err.message);
+      }
+      
+      // Retornando os pedidos como resposta JSON
+      res.json(results);
+  });
+});
+
+
+app.get('/orders/saldo/:cpf', (req, res) => {
+  const { cpf } = req.params;
+
+  // Criando uma query SQL para calcular o saldo total dos pedidos completos usando o CPF do cliente
+  const query = `
+      SELECT SUM(orders.order_value) AS saldoTotal
+      FROM orders 
+      JOIN clients ON orders.client_id = clients.id 
+      WHERE clients.cpf = ? AND orders.status = 'COMPLETO';
+  `;
+
+  db.query(query, [cpf], (err, results) => {
+      if (err) {
+          console.error(err);
+          return res.status(500).send('Erro no servidor: ' + err.message);
+      }
+      
+      // Se nenhum pedido completo foi encontrado, o saldoTotal deve ser 0
+      const saldoTotal = results[0].saldoTotal || 0;
+      
+      // Retornando o saldo total como resposta JSON
+      res.json({ saldoTotal });
+  });
+});
+
+
 
 
 

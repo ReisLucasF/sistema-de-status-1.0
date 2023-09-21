@@ -1,17 +1,15 @@
 body {
     font-family: 'Arial, sans-serif';
     background-color: #f0f0f0;
-}
-
-.container {
-    gap: 5px;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 20px;
 }
 
-.containerCon{
+.container{
+    background-color: #FFFFFF;
+    border-radius: 13px;
+    width: 650px;
     gap: 5px;
     display: flex;
     flex-direction: column;
@@ -20,11 +18,10 @@ body {
     margin-top: 20px;
 }
 
-#buscarBtn{
-    width: 280px;
+.container div{
+    width: 60%;
+    text-align: center;
 }
-
-
 
 .modal {
     display: none;
@@ -39,59 +36,50 @@ body {
     padding-top: 60px;
 }
 
-#ordersModal{
-    width: 100%;
-    text-align: center;
-    justify-content: center;
+label{
+    font-size: 20px;
 }
 
-.modal-content {
+input{
     border-radius: 13px;
-    background-color: #fefefe;
-    margin: 5% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-}
-
-.modal-content label {
-    display: block;
-    margin-bottom: 5px;
-}
-
-.modal-content input, .modal-content textarea, .modal-content select {
-    width: 95%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-.modal-content select{
+    margin: 10px 0;
     width: 98%;
+    height: 40px;
 }
 
 button {
+    width: 60%;
+    padding: 10px;
     background-color: #28a745;
     border: none;
     border-radius: 4px;
     color: #fff;
     font-size: 16px;
+    margin-bottom: 20px;
     cursor: pointer;
-    padding: 10px 20px;
-    border: none;
-    margin-bottom: 10px;
 }
 
 button:hover {
-    background-color: #75db8d;
+    background-color: #218838;
 }
 
+#saldoTotal{
+    color: #218838;
+    font-weight: 800;
+    font-size: 19px;
+    margin-bottom: 5px;
+}
+
+#tabelaPedidos{
+    padding: 20px;
+}
 
 table {
-    width: 100%;
+    padding: 20px;
+    width: 95%;
     border-collapse: collapse;
     margin-bottom: 20px;
+    box-shadow: 0px 1px 2px #585656;
 }
 
 table, th, td {
@@ -103,13 +91,17 @@ th, td {
     text-align: left;
 }
 
-
-.close{
-    background: #a60d21;
-    color: #fff;
-}
-
-.close:hover{
-    background: #e7324a;
-    color: #fff;
+table, th, td {
+    border: 1px solid #494949;
+    background-color: #f1f1f1;
+    
+    text-align: center;
+        margin: 40px auto;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+        border-bottom-right-radius: 15px;
+        border-bottom-left-radius: 15px;
+        overflow: hidden;
+        
+    
 }
