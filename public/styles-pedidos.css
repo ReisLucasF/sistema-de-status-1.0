@@ -50,8 +50,7 @@ body {
     background-color: #fefefe;
     margin: 5% auto;
     padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;    width: 80%;
 }
 
 .modal-content label {
@@ -92,6 +91,7 @@ table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
+    box-shadow: 0px 10px 15px 0px rgba(0,0,0,0.1);
 }
 
 table, th, td {
@@ -112,4 +112,19 @@ th, td {
 .close:hover{
     background: #e7324a;
     color: #fff;
+}
+
+table, th, td {
+    border: 1px solid #494949;
+    background-color: #f1f1f1;
+    
+    text-align: center;
+        margin: 40px auto;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+        border-bottom-right-radius: 15px;
+        border-bottom-left-radius: 15px;
+        overflow: hidden;
+        
+    
 }
