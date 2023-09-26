@@ -1,0 +1,144 @@
+const mysql = require('mysql2/promise');
+
+const dbConfig = {
+  host: 'devos.mysql.uhserver.com',
+  user: 'devos',
+  password: 'Daredevil9127@',
+  database: 'devos',
+};
+
+const createTables = async () => {
+  try {
+    const connection = await mysql.createConnection(dbConfig);
+
+    const queries = [
+        
+      `
+      CREATE TABLE IF NOT EXISTS COLABORADOR (
+        ID VARCHAR(255) NOT NULL,
+        NOME VARCHAR(255),
+        TELEFONE VARCHAR(20),
+        EMAIL VARCHAR(255),
+        SENHA VARCHAR(255),
+        DATANASCIMENTO DATE,
+        SEXO VARCHAR(10),
+        STATUS VARCHAR(20),
+        CONTABANCARIA VARCHAR(255),
+        CONTABANCARIA_TITULAR VARCHAR(255),
+        CONTABANCARIA_CPF_CNPJ VARCHAR(20),
+        CONTABANCARIA_TIPO VARCHAR(20),
+        CONTABANCARIA_AGENCIA VARCHAR(20),
+        CONTABANCARIA_NUMERO VARCHAR(20),
+        CONTABANCARIA_DV VARCHAR(10),
+        DATACADASTRO DATE,
+        RECIPIENTID VARCHAR(255),
+        PRIMARY KEY (ID)
+      );
+      `,
+      `
+      CREATE TABLE IF NOT EXISTS CLIENTE (
+        _ID VARCHAR(255) NOT NULL,
+        NOME VARCHAR(255),
+        TELEFONE VARCHAR(20),
+        EMAIL VARCHAR(255),
+        SENHA VARCHAR(255),
+        FOTO VARCHAR(255),
+        STATUS VARCHAR(20),
+        SEXO VARCHAR(10),
+        DATANASCIMENTO DATE,
+        DOCUMENTO_TIPO VARCHAR(20),
+        DOCUMENTO_NUMERO VARCHAR(20),
+        ENDERECO_CIDADE VARCHAR(255),
+        ENDERECO_PAIS VARCHAR(255),
+        ENDERECO_NUMERO DECIMAL,
+        ENDERECO_CEP VARCHAR(20),
+        ENDERECO_UF VARCHAR(10),
+        DATACADASTRO DATE,
+        PRIMARY KEY (_ID)
+      );
+      `,
+      `
+      CREATE TABLE IF NOT EXISTS SERVICO (
+        SERVICOID VARCHAR(255) NOT NULL,
+        COLABORADORID VARCHAR(255),
+        TITULO VARCHAR(255),
+        PRECO DECIMAL,
+        DURACAO DECIMAL,
+        COMISSAO DECIMAL,
+        RECORRENCIA DECIMAL,
+        DESCRICAO VARCHAR(255),
+        STATUS VARCHAR(255),
+        DATACADASTRO DATE,
+        PRIMARY KEY (SERVICOID),
+        FOREIGN KEY (COLABORADORID) REFERENCES COLABORADOR(ID)
+      );
+      `,
+
+      `
+      CREATE TABLE IF NOT EXISTS AGENDAMENTO (
+        CLIENTEID VARCHAR(255),
+        SERVICOID VARCHAR(255),
+        COLABORADORID VARCHAR(255),
+        DATA DATE,
+        COMISSAO DECIMAL,
+        TRANSACTIONSID VARCHAR(255),
+        DATACADASTRO DATE,
+        PRIMARY KEY (CLIENTEID, SERVICOID, COLABORADORID),
+        FOREIGN KEY (CLIENTEID) REFERENCES CLIENTE(_ID),
+        FOREIGN KEY (SERVICOID) REFERENCES SERVICO(SERVICOID),
+        FOREIGN KEY (COLABORADORID) REFERENCES COLABORADOR(ID)
+      );
+      `,
+
+      `
+      CREATE TABLE IF NOT EXISTS COLABORADOR_SERVICO (
+        COLABORADORID VARCHAR(255),
+        SERVICOID VARCHAR(255),
+        STATUS VARCHAR(255),
+        DATACADASTRO DATE,
+        PRIMARY KEY (COLABORADORID, SERVICOID),
+        FOREIGN KEY (COLABORADORID) REFERENCES COLABORADOR(ID),
+        FOREIGN KEY (SERVICOID) REFERENCES SERVICO(SERVICOID)
+      );
+      `,
+
+      `
+      CREATE TABLE IF NOT EXISTS HORARIO (
+        COLABORADORES VARCHAR(255),
+        SERVICOID VARCHAR(255),
+        DIAS DECIMAL,
+        INICIO DATE,
+        FIM DATE,
+        DATACADASTRO DATE,
+        PRIMARY KEY (SERVICOID, DIAS, INICIO, FIM),
+        FOREIGN KEY (SERVICOID) REFERENCES SERVICO(SERVICOID),
+        FOREIGN KEY (COLABORADORES) REFERENCES SERVICO(SERVICOID)
+      );
+      `,
+
+      `
+      CREATE TABLE IF NOT EXISTS COLABORADORCLIENTE (
+        CLIENTEID VARCHAR(255),
+        COLABORADORID VARCHAR(255),
+        STATUS VARCHAR(20),
+        DATACADASTRO DATE,
+        PRIMARY KEY (COLABORADORID, CLIENTEID),
+        FOREIGN KEY (COLABORADORID) REFERENCES COLABORADOR(ID),
+        FOREIGN KEY (CLIENTEID) REFERENCES CLIENTE(_ID)
+      );
+      `,
+    ];
+
+    for (const query of queries) {
+      await connection.query(query);
+    }
+
+    console.log('Tabelas criadas com sucesso!');
+
+    await connection.end();
+  } catch (error) {
+    console.error('Erro ao criar tabelas:', error);
+  }
+};
+
+createTables();
