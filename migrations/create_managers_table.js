@@ -1,11 +1,5 @@
 const mysql = require('mysql');
 
-const db = mysql.createConnection({
-  host: 'devos.mysql.uhserver.com',
-  user: 'devos',
-  password: 'Daredevil9127@',
-  database: 'devos', // Substitua pelo nome do seu banco de dados
-});
 
 const query = `
 CREATE TABLE IF NOT EXISTS managers (
