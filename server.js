@@ -8,10 +8,6 @@ app.use(express.json());
 const port = 3000;
 
 const db = mysql.createConnection({
-  host: 'devos.mysql.uhserver.com',
-  user: 'devos',
-  password: 'Daredevil9127@',
-  database: 'devos',
   connectTimeout: 60 * 60 * 1000,
   // acquireTimeout: 60 * 60 * 1000,
 });
