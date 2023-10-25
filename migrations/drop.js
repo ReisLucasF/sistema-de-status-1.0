@@ -1,11 +1,6 @@
 const mysql = require('mysql2/promise');
 
-const dbConfig = {
-  host: 'devos.mysql.uhserver.com',
-  user: 'devos',
-  password: 'Daredevil9127@',
-  database: 'devos',
-};
+
 
 const dropTables = async () => {
   try {
