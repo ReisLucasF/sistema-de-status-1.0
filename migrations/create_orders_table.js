@@ -1,11 +1,6 @@
 const mysql = require('mysql');
 
-const db = mysql.createConnection({
-  host: 'devos.mysql.uhserver.com',
-  user: 'devos',
-  password: 'Daredevil9127@',
-  database: 'devos',
-});
+
 
 const query1 = `
 CREATE TABLE IF NOT EXISTS orders (
